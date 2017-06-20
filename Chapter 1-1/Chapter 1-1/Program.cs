@@ -9,9 +9,9 @@ namespace Chapter_1_1
 {
     class Program
     {
-        public static void threadMethod()
+        public static void threadMethod(object o)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < (int)o; i++)
             {
                 Console.WriteLine("thread Methord calling : {0}", i);
                 Thread.Sleep(0);   // it will be paued for 1000 miliseconds after print proint 0 then goes to main methord for execution 
@@ -22,17 +22,12 @@ namespace Chapter_1_1
 
         static void Main(string[] args)
         {
-            Thread t = new Thread(new ThreadStart(threadMethod));
-            t.Start();
-            for (int i = 0; i < 5; i++)
-            {
-
-                Console.WriteLine("mAIN mETHORD COUNT : {0}", i);
-                Thread.Sleep(500);
-            }
+            Thread t = new Thread(new ParameterizedThreadStart(threadMethod));  // ParameterizedThreadStart delegate which takes the parameter.
+            t.Start(15);
             t.Join();
+            
 
 
         }
-    }
+    } 
 }
