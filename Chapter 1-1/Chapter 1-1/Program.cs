@@ -7,40 +7,34 @@ using System.Threading.Tasks;
 
 namespace Chapter_1_1
 {
-    class Program
+    public static class Program
     {
-       
+        public static ThreadLocal<int> _field = 
+            new ThreadLocal<int>(() => { return Thread.CurrentThread.ManagedThreadId; });
 
-        [ThreadStatic]         // this attribute makes the viarable used by both the threads as a static value. , 
-        public static int _field;  
 
         static void Main(string[] args)
         {
-            new Thread(
-                () =>
+            new Thread(() =>
+          {
+              for (int i = 0; i < _field.Value; i++)
+              {
+                  Console.WriteLine("thread A: {0}",i);
+              }
+          }
+            ).Start();
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < _field.Value; i++)
                 {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        _field++;
-                        Console.WriteLine("thread A : {0}", _field);
-
-
-                    }
+                    Console.WriteLine("thread B: {0}",i);
+                    Console.WriteLine( " thread Current Culture prop : " +Thread.CurrentThread.CurrentCulture);
+                   // Console.WriteLine("");
                 }
-                ).Start();
+            }).Start();
 
-            new Thread(
-                () =>
-                {
-                    for (int i = 0; i < 10; i++)                 
-                    {
-                        _field++;
-                        Console.WriteLine("thread B : {0}", _field);
-
-                    }
-                }).Start();
-
-
+            Console.ReadLine();
         }
     } 
 }
