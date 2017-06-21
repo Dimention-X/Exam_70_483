@@ -9,36 +9,36 @@ namespace Chapter_1_1
 {
     class Program
     {
-        public static void threadMethod()
-        {
-            for (int i = 0; i <5 ; i++)
-            {
-                Console.WriteLine("thread Methord calling : {0}", i);
-                Thread.Sleep(0);   // it will be paued for 1000 miliseconds after print proint 0 then goes to main methord for execution 
-                // and when that thread sleep then this thread will work this is synchronisation. two threads never be executed on the same portion of the program at a time.
-            }
-        }
+       
 
+        [ThreadStatic]         // this attribute makes the viarable used by both the threads as a static value. , 
+        public static int _field;  
 
         static void Main(string[] args)
         {
-            bool stoped = true;
-            Thread t = new Thread(new ThreadStart(() =>
-            {
-                while (!stoped)
+            new Thread(
+                () =>
                 {
-                    Console.WriteLine("Running ....");
-                    Thread.Sleep(1000);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        _field++;
+                        Console.WriteLine("thread A : {0}", _field);
+
+
+                    }
                 }
-            }
-            ));
+                ).Start();
 
-            t.Start();
-            Console.WriteLine("Press any key to start...");
-            Console.ReadKey();
+            new Thread(
+                () =>
+                {
+                    for (int i = 0; i < 10; i++)                 
+                    {
+                        _field++;
+                        Console.WriteLine("thread B : {0}", _field);
 
-            stoped = true;
-            t.Join();
+                    }
+                }).Start();
 
 
         }
