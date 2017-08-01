@@ -25,7 +25,7 @@ namespace _1_Creating_thread_with_Thread_class
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine("Main Mth : "+ i);
-                Thread.Sleep(0);
+                Thread.Sleep(1000);
             }
 
             t.Join(); // waite for the above thread to complete 
