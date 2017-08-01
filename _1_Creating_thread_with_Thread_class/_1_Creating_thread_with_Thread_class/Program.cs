@@ -13,7 +13,7 @@ namespace _1_Creating_thread_with_Thread_class
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("Thread Meth : "+ i);
-               
+                Thread.Sleep(500);
             }
         }
 
